@@ -1,6 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using MonoMod.RuntimeDetour;
 using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace WizardTime
@@ -18,6 +20,12 @@ namespace WizardTime
             mls = base.Logger;
             //Holds the scripts used by the mod to do magic!
             focusOrb = new GameObject("Magical Glowing Orb");
+            //new Hook(
+            //typeof(GameNetworkManager).GetMethod("Start", (BindingFlags)int.MaxValue),
+            //(Action<GameNetworkManager> original, GameNetworkManager self) =>
+            //{
+            //    original(self);
+            //});
 
         }
     }
