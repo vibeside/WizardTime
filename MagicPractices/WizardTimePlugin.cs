@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
+using WizardTime.Scripts;
 
 namespace WizardTime
 {
@@ -39,6 +40,15 @@ namespace WizardTime
             //{
             //    original(self);
             //});
+            
         }
+    }
+    public enum Magicks
+    {
+        None,
+        Fire,
+        Gravity,
+        Thunder,
+        Blood
     }
 }

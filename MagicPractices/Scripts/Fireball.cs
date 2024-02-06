@@ -7,5 +7,6 @@ namespace WizardTime.Scripts
 {
     internal class Fireball : MonoBehaviour
     {
+
     }
 }
