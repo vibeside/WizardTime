@@ -32,16 +32,20 @@ namespace WizardTime
         }
         public void Awake()
         {
+            // dont forgor to make a secret spell to cast "Into Cake"
+            // vital
             mls = base.Logger;
             //Holds the scripts used by the mod to do magic!
             focusOrb = new GameObject("Magical Glowing Orb");
             focusOrb.AddComponent<NetworkObject>();
             var (hash, _, _, _) = QuadHash(0);
             focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
+            focusOrb.AddComponent<SpellBook>();
             focusOrb.AddComponent<Fire>();
-            mls.LogInfo(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0) == null);
             MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0),
             typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.ActivateItem_performedPatch))));
+            MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.Start), (BindingFlags)~0),
+            typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.PlayerStartPatch))));
         }
     }
     

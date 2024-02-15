@@ -11,6 +11,11 @@ namespace WizardTime
 {
     internal class MonomodPatches
     {
+        public static void PlayerStartPatch(Action<PlayerControllerB> orig, PlayerControllerB self)
+        {
+            orig(self);
+            self.gameObject.AddComponent<SpellBook>();
+        }
         public static void ActivateItem_performedPatch(Action<PlayerControllerB, InputAction.CallbackContext> orig, PlayerControllerB self, InputAction.CallbackContext context)
         {
             if(self == StartOfRound.Instance.localPlayerController)

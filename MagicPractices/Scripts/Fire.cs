@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace WizardTime.Scripts
 {
-    internal class Fire : MonoBehaviour
+    internal class Fire : Tome
     {
         public void Awake()
         {
-
+            minorMagicks = new Spell("Fireball", FireballMagicks, 1f);
         }
         public static void FireballMagicks()
         {
