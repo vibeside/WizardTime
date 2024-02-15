@@ -6,11 +6,11 @@ namespace WizardTime.Scripts
 {
     internal class Spell
     {
-        public string Name { get; set; } = "";
+        public string Name = "";
         public delegate void Effects();
-        public Effects ConjuredMagic;
+        public Effects SpellEffects;
         public float ManaCost;
-        public Spell(string name, Effects magic, float cost) 
+        public Spell(string name, Effects magic, float manacost) 
         {
             Name = name;
             ConjuredMagic = magic;

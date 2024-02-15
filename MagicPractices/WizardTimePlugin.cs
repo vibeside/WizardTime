@@ -34,13 +34,7 @@ namespace WizardTime
             focusOrb.AddComponent<NetworkObject>();
             var (hash, _, _, _) = QuadHash(0);
             focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
-            //new Hook(
-            //typeof(GameNetworkManager).GetMethod("Start", (BindingFlags)int.MaxValue),
-            //(Action<GameNetworkManager> original, GameNetworkManager self) =>
-            //{
-            //    original(self);
-            //});
-            
+            focusOrb.AddComponent<Fire>();
         }
     }
     public enum Magicks
