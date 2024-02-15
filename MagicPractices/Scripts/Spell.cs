@@ -13,8 +13,8 @@ namespace WizardTime.Scripts
         public Spell(string name, Effects magic, float manacost) 
         {
             Name = name;
-            ConjuredMagic = magic;
-            ManaCost = cost;
+            SpellEffects = magic;
+            ManaCost = manacost;
         }
     }
 }

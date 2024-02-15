@@ -1,11 +1,14 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using GameNetcodeStuff;
 using MonoMod.RuntimeDetour;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using WizardTime.Scripts;
 
 namespace WizardTime
@@ -16,7 +19,8 @@ namespace WizardTime
         public const string modGUID = "grug.lethalcompany.WizardTime";
         public const string modName = "MagicPractices";
         public const string modVersion = "0.1.0.0";
-        public static ManualLogSource? mls;
+        public static List<Hook> MMHooks = new();
+        public static ManualLogSource mls;
         public static GameObject? focusOrb;
         private (uint, uint, uint, uint) QuadHash(int SALT = 0)
         { // [!code ++]
@@ -35,6 +39,25 @@ namespace WizardTime
             var (hash, _, _, _) = QuadHash(0);
             focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
             focusOrb.AddComponent<Fire>();
+            mls.LogInfo(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0) == null);
+            MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0),
+            typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.ActivateItem_performedPatch))));
+            //    MMHooks.Add(new(
+            //typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)int.MaxValue),
+            //(Action<PlayerControllerB, InputAction.CallbackContext> original, PlayerControllerB self, InputAction.CallbackContext context) =>
+            //{
+            //    if (Fire.temptimer < 10f)
+            //    {
+            //        mls.LogInfo(Fire.temptimer);
+            //        Fire.temptimer += 1;
+            //        original(self, context);
+            //        mls.LogInfo("input done");
+            //    }
+            //    else
+            //    {
+            //        mls.LogInfo("input not done get fucked");
+            //    }
+            //}));
         }
     }
     public enum Magicks

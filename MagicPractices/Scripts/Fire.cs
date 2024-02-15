@@ -9,9 +9,14 @@ namespace WizardTime.Scripts
     {
         public static Spell Fireball = new Spell("Fireball",FireballMagicks,10f);
         public static Spell Explosion;
+        public static float temptimer = 0f;
         public void Awake()
         {
 
+        }
+        public void Update()
+        {
+            temptimer += Time.deltaTime;
         }
         public static void FireballMagicks()
         {
