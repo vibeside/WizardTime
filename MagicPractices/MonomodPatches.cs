@@ -1,7 +1,9 @@
-﻿using GameNetcodeStuff;
+﻿using BepInEx.Logging;
+using GameNetcodeStuff;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using WizardTime.Scripts;
 
@@ -13,8 +15,9 @@ namespace WizardTime
         {
             if(self == StartOfRound.Instance.localPlayerController)
             {
-
+                orig(self,context);
             }
         }
     }
+    
 }
