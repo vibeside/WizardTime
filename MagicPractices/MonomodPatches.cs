@@ -20,6 +20,15 @@ namespace WizardTime
         {
             if(self == StartOfRound.Instance.localPlayerController)
             {
+                if(self.TryGetComponent(out SpellBook spellBook))
+                {
+                    if (spellBook.selectedTome != null && spellBook.selectedTome.selectedSpell != null)
+                    {
+                        WizardTimePlugin.mls.LogInfo(spellBook.selectedTome);
+                        WizardTimePlugin.mls.LogInfo(spellBook.selectedTome.selectedSpell);
+                        //spellBook.selectedTome.CastSpell(spellBook.selectedTome.selectedSpell);
+                    }
+                }
                 orig(self,context);
             }
         }

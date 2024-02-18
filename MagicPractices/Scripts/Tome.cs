@@ -11,9 +11,9 @@ namespace WizardTime.Scripts
         public Spell? majorMagicks;
         public Spell? buffMagicks;
         public Spell? defensiveMagicks;
-        public virtual void FireSpell(Spell firedSpell)
+        public Spell? selectedSpell;
+        public virtual void CastSpell(Spell castedSpell)
         {
-            WizardTimePlugin.mls.LogInfo("fired a spell, loser");
         }
     }
 }
