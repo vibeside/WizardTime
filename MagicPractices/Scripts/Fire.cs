@@ -11,10 +11,16 @@ namespace WizardTime.Scripts
         {
             minorMagicks = new Spell("Fireball", FireballMagicks, 1f);
         }
-        public static void FireballMagicks()
+        public override void CastSpell(Spell castedSpell)
+        {
+            base.CastSpell(castedSpell);
+        }
+        public void FireballMagicks()
         {
             GameObject fireball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             fireball.GetComponent<Renderer>().material.shader = Shader.Find("HDRP/Lit");
+            fireball.transform.position = gameObject.transform.position;
+            fireball.GetComponent<Collider>().enabled = false;
         }
     }
 }

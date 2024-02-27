@@ -13,5 +13,11 @@ namespace WizardTime.Scripts
         public Thunder? thunderKnowledge;
         public Gravity? gravityKnowledge;
         public Tome? selectedTome;
+        public void Awake()
+        {
+            fireKnowledge = gameObject.AddComponent<Fire>();
+            selectedTome = fireKnowledge;
+            selectedTome.selectedSpell = selectedTome.minorMagicks;
+        }
     }
 }

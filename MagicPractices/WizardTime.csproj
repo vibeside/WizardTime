@@ -85,4 +85,14 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="xcopy &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\BepInEx\plugins&quot; /F /Y /I&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;C:\Users\Aaron\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Vanilla files\BepInEx\plugins&quot; /F /Y /I" />
 	</Target>
+	<ItemGroup>
+		<BuildArtifacts Include="$(OutDir)/$(TargetName).dll" />
+		<Assets Include="C:\Users\Aaron\source\repos\bundles\" />
+		<PluginOutput Include="C:\Users\Aaron\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Vanilla files\BepInEx\plugins" />
+	</ItemGroup>
+
+	<Target Name="Copy and Test" AfterTargets="PostBuildEvent">
+		<Copy DestinationFolder="@(PluginOutput)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="@(BuildArtifacts)" />
+		<!-- other steps here -->
+	</Target>
 </Project>

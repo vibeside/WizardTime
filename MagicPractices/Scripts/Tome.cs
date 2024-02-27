@@ -14,6 +14,7 @@ namespace WizardTime.Scripts
         public Spell? selectedSpell;
         public virtual void CastSpell(Spell castedSpell)
         {
+            castedSpell.SpellEffects();
         }
     }
 }
