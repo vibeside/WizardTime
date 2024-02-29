@@ -9,7 +9,7 @@ namespace WizardTime.Scripts
     internal class SpellBook : MonoBehaviour
     {
         public static SpellBook Instance = null!;
-        public PlayerControllerB localPlayer = null!;
+        public PlayerControllerB? localPlayer;
         public bool Unlocked = true;
         public Fire? fireKnowledge;
         public Blood? bloodKnowledge;
@@ -25,14 +25,14 @@ namespace WizardTime.Scripts
                 DestroyImmediate(Instance);
             }
             Instance = this;
-            localPlayer = StartOfRound.Instance.localPlayerController;
             fireKnowledge = GetComponent<Fire>();
             selectedTome = fireKnowledge;
             selectedTome.selectedSpell = selectedTome.minorMagicks;
         }
         public void Update()
         {
-            if(mana < 100)
+            if(localPlayer == null) localPlayer = StartOfRound.Instance.localPlayerController;
+            if (mana < 100)
             {
                 mana += Time.deltaTime * manaRegenSpeed;
             }
