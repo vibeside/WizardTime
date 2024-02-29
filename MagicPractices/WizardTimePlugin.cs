@@ -33,22 +33,6 @@ namespace WizardTime
         }
         public void Awake()
         {
-            // dont forgor to make a secret spell to cast "Into Cake"
-            // vital
-            string sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            magicksAssets = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "magicksbundle"));
-            mls = Logger;
-            mls.LogInfo("Loaded!");
-            //Holds the scripts used by the mod to do magic!
-            focusOrb = new GameObject("Magical Glowing Orb");
-            focusOrb.hideFlags = HideFlags.HideAndDontSave;
-            focusOrb.SetActive(false);
-            focusOrb.AddComponent<SpellBook>();
-            //focusOrb.AddComponent<Fire>();
-            focusOrb.AddComponent<NetworkObject>();
-            var (hash, _, _, _) = QuadHash(0);
-                focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
             var types = Assembly.GetExecutingAssembly().GetTypes();
             foreach (var type in types)
             {
@@ -62,6 +46,31 @@ namespace WizardTime
                     }
                 }
             }
+            // dont forgor to make a secret spell to cast "Into Cake"
+            // vital
+            string sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            magicksAssets = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "magicksbundle"));
+            mls = Logger;
+            mls.LogInfo("Loaded!");
+            //Holds the scripts used by the mod to do magic!
+
+
+            GameObject silly = new("container");
+            silly.hideFlags = HideFlags.HideAndDontSave;
+            silly.SetActive(false);
+
+
+            focusOrb = new GameObject("Magical Glowing Orb");
+            focusOrb.hideFlags = HideFlags.HideAndDontSave;
+            focusOrb.transform.SetParent(silly.transform);
+            focusOrb.AddComponent<SpellBook>();
+            focusOrb.AddComponent<Fire>();
+            focusOrb.AddComponent<NetworkObject>();
+            var (hash, _, _, _) = QuadHash(0);
+                focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
+
+
             MMHooks.Add(new(typeof(GameNetworkManager).GetMethod(nameof(GameNetworkManager.Start), (BindingFlags)~0),
                 typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.GameNetworkManagerPatch))));
             MMHooks.Add(new(typeof(StartOfRound).GetMethod(nameof(StartOfRound.Awake), (BindingFlags)~0),

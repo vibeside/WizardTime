@@ -15,7 +15,6 @@ namespace WizardTime.Scripts
         public Spell? selectedSpell;
         public void CastSpellOnClient()
         {
-            if (!IsOwner) return;
             CastSpellOnServerRpc();
         }
         [ServerRpc(RequireOwnership =false)]

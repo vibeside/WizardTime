@@ -26,12 +26,9 @@ namespace WizardTime.Scripts
                 DestroyImmediate(Instance);
             }
             Instance = this;
-            //fireKnowledge = GetComponent<Fire>();
-            //selectedTome = fireKnowledge;
-            //selectedTome.selectedSpell = fireKnowledge.minorMagicks;
-            //WizardTimePlugin.mls.LogInfo(fireKnowledge == null);
-            //WizardTimePlugin.mls.LogInfo(selectedTome.minorMagicks == null);
-            //WizardTimePlugin.mls.LogInfo(selectedTome.selectedSpell == null);
+            fireKnowledge = GetComponent<Fire>();
+            selectedTome = fireKnowledge;
+            selectedTome.selectedSpell = fireKnowledge.minorMagicks;
 
         }
         public void Update()
@@ -46,20 +43,5 @@ namespace WizardTime.Scripts
                 mana = 100f;
             }
         }
-        public static void testmore()
-        {
-            Instance.TestServerRpc();
-        }
-        [ServerRpc(RequireOwnership = false)]
-        public void TestServerRpc()
-        {
-            TestClientRpc();
-        }
-        [ClientRpc]
-        public void TestClientRpc()
-        {
-            WizardTimePlugin.mls.LogInfo("A");
-        }
-        
     }
 }

@@ -24,7 +24,6 @@ namespace WizardTime
                 if(WizardTimePlugin.focusOrb != null)
                 {
                     GameObject temp = UnityEngine.Object.Instantiate(WizardTimePlugin.focusOrb);
-                    temp.SetActive(true);
                     if(temp.TryGetComponent(out NetworkObject netobj))
                     {
                         if (!netobj.IsSpawned)
@@ -49,23 +48,20 @@ namespace WizardTime
         }
         public static void ActivateItem_performedPatch(Action<PlayerControllerB, InputAction.CallbackContext> orig, PlayerControllerB self, InputAction.CallbackContext context)
         {
-            //SpellBook spellBookInstance = SpellBook.Instance;
-            if(self == StartOfRound.Instance.localPlayerController)
+            SpellBook spellBookInstance = SpellBook.Instance;
+            if (self == StartOfRound.Instance.localPlayerController)
             {
-                SpellBook.testmore();
-                //WizardTimePlugin.mls.LogInfo(SpellBook.Instance == null);
-                //if (spellBookInstance != null && spellBookInstance.selectedTome != null /*&& spellBookInstance.selectedTome.selectedSpell != null*/)
-                //{
-                //    //spellBookInstance.fireKnowledge.CastSpellOnClient();
-                //    //if (!(spellBookInstance.selectedTome.selectedSpell.ManaCost > spellBookInstance.mana))
-                //    //{
-                //    //    //spellBookInstance.selectedTome.CastSpellOnClient();
-                //    //}
-                //    //else
-                //    //{
-                //    //    WizardTimePlugin.mls.LogInfo("No  mana!");
-                //    //}
-                //}
+                if (spellBookInstance != null && spellBookInstance.selectedTome != null && spellBookInstance.selectedTome.selectedSpell != null)
+                {
+                    if (!(spellBookInstance.selectedTome.selectedSpell.ManaCost > spellBookInstance.mana))
+                    {
+                        spellBookInstance.selectedTome.CastSpellOnClient();
+                    }
+                    else
+                    {
+                        WizardTimePlugin.mls.LogInfo("No  mana!");
+                    }
+                }
                 orig(self,context);
             }
         }
