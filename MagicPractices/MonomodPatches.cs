@@ -25,6 +25,7 @@ namespace WizardTime
                     if (spellBook.selectedTome != null && spellBook.selectedTome.selectedSpell != null)
                     {
                         spellBook.selectedTome.CastSpell(spellBook.selectedTome.selectedSpell);
+                        spellBook.selectedTome.selectedSpell.Cast();
                     }
                 }
                 orig(self,context);

@@ -20,6 +20,7 @@ namespace WizardTime
         public const string modName = "MagicPractices";
         public const string modVersion = "0.1.0.0";
         public static List<Hook> MMHooks = [];
+        public static AssetBundle? magicksAssets;
         public static ManualLogSource mls = null!;
         public static GameObject? focusOrb;
         private (uint, uint, uint, uint) QuadHash(int SALT = 0)
@@ -34,7 +35,10 @@ namespace WizardTime
         {
             // dont forgor to make a secret spell to cast "Into Cake"
             // vital
-            mls = base.Logger;
+            string sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            magicksAssets = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "magicksbundle"));
+            mls = Logger;
             //Holds the scripts used by the mod to do magic!
             focusOrb = new GameObject("Magical Glowing Orb");
             focusOrb.AddComponent<NetworkObject>();

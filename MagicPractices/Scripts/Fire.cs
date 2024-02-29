@@ -7,8 +7,13 @@ namespace WizardTime.Scripts
 {
     internal class Fire : Tome
     {
+        public GameObject? fireballPrefab;
         public void Awake()
         {
+            if (WizardTimePlugin.magicksAssets != null)
+            {
+                fireballPrefab = WizardTimePlugin.magicksAssets.LoadAsset<GameObject>("Assets/magicks/Fireball.prefab");
+            }
             minorMagicks = new Spell("Fireball", FireballMagicks, 1f);
         }
         public override void CastSpell(Spell castedSpell)
@@ -17,10 +22,13 @@ namespace WizardTime.Scripts
         }
         public void FireballMagicks()
         {
-            GameObject fireball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            fireball.GetComponent<Renderer>().material.shader = Shader.Find("HDRP/Lit");
-            fireball.transform.position = gameObject.transform.position;
-            fireball.GetComponent<Collider>().enabled = false;
+            if (fireballPrefab == null)
+            {
+                WizardTimePlugin.mls.LogError("Warning, Fireball Prefab didn't load");
+                return;
+            }
+            GameObject ballOfFire = Instantiate(fireballPrefab);
+            ballOfFire.transform.position = transform.position;
         }
     }
 }

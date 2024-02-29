@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace WizardTime.Scripts
 {
-    internal class Spell
+    internal class Spell : ScriptableObject
     {
         public string Name = "";
         public delegate void Effects();
@@ -15,6 +16,10 @@ namespace WizardTime.Scripts
             Name = name;
             SpellEffects = magic;
             ManaCost = manacost;
+        }
+        public void Cast()
+        {
+            SpellEffects();
         }
     }
 }
