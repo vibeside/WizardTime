@@ -28,7 +28,10 @@ namespace WizardTime.Scripts
                 return;
             }
             GameObject ballOfFire = Instantiate(fireballPrefab);
-            ballOfFire.transform.position = transform.position;
+            ballOfFire.transform.position = StartOfRound.Instance.localPlayerController.gameplayCamera.transform.position;
+            //ballOfFire.transform.rotation = Quaternion.Euler(StartOfRound.Instance.localPlayerController.gameplayCamera.transform.forward);
+            ballOfFire.transform.up = -StartOfRound.Instance.localPlayerController.gameplayCamera.transform.forward;
+
         }
     }
 }

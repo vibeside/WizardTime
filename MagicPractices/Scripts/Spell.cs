@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace WizardTime.Scripts
 {
-    internal class Spell : ScriptableObject
+    internal class Spell
     {
         public string Name = "";
         public delegate void Effects();
@@ -16,10 +16,6 @@ namespace WizardTime.Scripts
             Name = name;
             SpellEffects = magic;
             ManaCost = manacost;
-        }
-        public void Cast()
-        {
-            SpellEffects();
         }
     }
 }

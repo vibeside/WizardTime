@@ -24,8 +24,16 @@ namespace WizardTime
                 {
                     if (spellBook.selectedTome != null && spellBook.selectedTome.selectedSpell != null)
                     {
-                        spellBook.selectedTome.CastSpell(spellBook.selectedTome.selectedSpell);
-                        spellBook.selectedTome.selectedSpell.Cast();
+                        Spell currentSpell = spellBook.selectedTome.selectedSpell;
+                        if (!(currentSpell.ManaCost > spellBook.mana))
+                        {
+                            spellBook.selectedTome.CastSpell(currentSpell);
+                            spellBook.mana -= currentSpell.ManaCost;
+                        }
+                        else
+                        {
+                            WizardTimePlugin.mls.LogInfo("No mana!");
+                        }
                     }
                 }
                 orig(self,context);

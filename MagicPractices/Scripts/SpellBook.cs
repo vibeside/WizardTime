@@ -13,11 +13,24 @@ namespace WizardTime.Scripts
         public Thunder? thunderKnowledge;
         public Gravity? gravityKnowledge;
         public Tome? selectedTome;
+        public float mana = 100f;
+        public float manaRegenSpeed = 1f;
         public void Awake()
         {
             fireKnowledge = gameObject.AddComponent<Fire>();
             selectedTome = fireKnowledge;
             selectedTome.selectedSpell = selectedTome.minorMagicks;
+        }
+        public void Update()
+        {
+            if(mana < 100)
+            {
+                mana += Time.deltaTime * manaRegenSpeed;
+            }
+            else
+            {
+                mana = 100f;
+            }
         }
     }
 }
