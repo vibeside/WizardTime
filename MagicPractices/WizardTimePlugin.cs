@@ -41,11 +41,27 @@ namespace WizardTime
             mls = Logger;
             //Holds the scripts used by the mod to do magic!
             focusOrb = new GameObject("Magical Glowing Orb");
+            focusOrb.SetActive(false);
             focusOrb.AddComponent<NetworkObject>();
             var (hash, _, _, _) = QuadHash(0);
             focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
             focusOrb.AddComponent<SpellBook>();
             focusOrb.AddComponent<Fire>();
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+            foreach (var type in types)
+            {
+                var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                foreach (var method in methods)
+                {
+                    var attributes = method.GetCustomAttributes(typeof(RuntimeInitializeOnLoadMethodAttribute), false);
+                    if (attributes.Length > 0)
+                    {
+                        method.Invoke(null, null);
+                    }
+                }
+            }
+            MMHooks.Add(new(typeof(GameNetworkManager).GetMethod(nameof(GameNetworkManager.Start),(BindingFlags)~0),
+                typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.GameNetworkManagerPatch))));
             MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0),
             typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.ActivateItem_performedPatch))));
             MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.Start), (BindingFlags)~0),

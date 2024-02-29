@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameNetcodeStuff;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace WizardTime.Scripts
 {
     internal class SpellBook : MonoBehaviour
     {
+        public static SpellBook Instance = null!;
+        public PlayerControllerB localPlayer = null!;
         public bool Unlocked = true;
         public Fire? fireKnowledge;
         public Blood? bloodKnowledge;
@@ -17,7 +20,13 @@ namespace WizardTime.Scripts
         public float manaRegenSpeed = 1f;
         public void Awake()
         {
-            fireKnowledge = gameObject.AddComponent<Fire>();
+            if(Instance != null)
+            {
+                DestroyImmediate(Instance);
+            }
+            Instance = this;
+            localPlayer = StartOfRound.Instance.localPlayerController;
+            fireKnowledge = GetComponent<Fire>();
             selectedTome = fireKnowledge;
             selectedTome.selectedSpell = selectedTome.minorMagicks;
         }

@@ -1,20 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace WizardTime.Scripts
 {
-    internal class Tome : MonoBehaviour
+    internal class Tome : NetworkBehaviour
     {
         public Spell? minorMagicks;
         public Spell? majorMagicks;
         public Spell? buffMagicks;
         public Spell? defensiveMagicks;
         public Spell? selectedSpell;
-        public virtual void CastSpell(Spell castedSpell)
+        [ServerRpc(RequireOwnership =false)]
+        public void CastSpellOnServerRpc()
         {
-            castedSpell.SpellEffects();
+            CastSpellOnClientRpc();
+        }
+        [ClientRpc]
+        public void CastSpellOnClientRpc()
+        {
+            CastSpell();
+        }
+        public virtual void CastSpell()
+        {
+            if (selectedSpell == null) return;
+            selectedSpell.SpellEffects();
+            WizardTimePlugin.mls.LogInfo("click");
         }
     }
 }

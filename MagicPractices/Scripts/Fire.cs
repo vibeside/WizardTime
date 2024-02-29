@@ -16,9 +16,9 @@ namespace WizardTime.Scripts
             }
             minorMagicks = new Spell("Fireball", FireballMagicks, 1f);
         }
-        public override void CastSpell(Spell castedSpell)
+        public override void CastSpell()
         {
-            base.CastSpell(castedSpell);
+            base.CastSpell();
         }
         public void FireballMagicks()
         {
