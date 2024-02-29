@@ -97,7 +97,7 @@
 	<Target Name="NetcodePatch" AfterTargets="PostBuildEvent">
 		<Exec Command="netcode-patch &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')"/>
 	</Target>
-	<Target Name="Copy and Test" AfterTargets="PostBuildEvent">
+	<Target Name="Copy and Test" AfterTargets="PostBuildEvent" DependsOnTargets="NetcodePatch">
 		<Copy DestinationFolder="@(PluginOutput)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="@(BuildArtifacts)" />
 		<Copy DestinationFolder="@(LethalBepin)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="@(BuildArtifacts)"/>
 		<Copy DestinationFolder="@(PluginOutput)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(BundleFolder)\$(Assets)" />

@@ -13,6 +13,11 @@ namespace WizardTime.Scripts
         public Spell? buffMagicks;
         public Spell? defensiveMagicks;
         public Spell? selectedSpell;
+        public void CastSpellOnClient()
+        {
+            if (!IsOwner) return;
+            CastSpellOnServerRpc();
+        }
         [ServerRpc(RequireOwnership =false)]
         public void CastSpellOnServerRpc()
         {
@@ -21,6 +26,7 @@ namespace WizardTime.Scripts
         [ClientRpc]
         public void CastSpellOnClientRpc()
         {
+            
             CastSpell();
         }
         public virtual void CastSpell()

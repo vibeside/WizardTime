@@ -13,20 +13,30 @@ namespace WizardTime
         public static void GameNetworkManagerPatch(Action<GameNetworkManager> orig, GameNetworkManager self)
         {
             orig(self);
-            WizardTimePlugin.mls.LogInfo("a");
             NetworkManager.Singleton.AddNetworkPrefab(WizardTimePlugin.focusOrb);
         }
         public static void StartOfRoundAwake(Action<StartOfRound> orig, StartOfRound self)
         {
             orig(self);
                     WizardTimePlugin.mls.LogInfo("doing stuff");
-            if((NetworkManager.Singleton.IsHost ||  NetworkManager.Singleton.IsServer) && WizardTimePlugin.focusOrb != null)
+            if(NetworkManager.Singleton.IsHost ||  NetworkManager.Singleton.IsServer)
             {
-                GameObject? temp = UnityEngine.Object.Instantiate(WizardTimePlugin.focusOrb);
-                if(temp.TryGetComponent(out NetworkObject networkObject) && !networkObject.IsSpawned)
+                if(WizardTimePlugin.focusOrb != null)
                 {
-                    WizardTimePlugin.mls.LogInfo(networkObject.GlobalObjectIdHash);
-                    networkObject.Spawn();
+                    GameObject temp = UnityEngine.Object.Instantiate(WizardTimePlugin.focusOrb);
+                    temp.SetActive(true);
+                    if(temp.TryGetComponent(out NetworkObject netobj))
+                    {
+                        if (!netobj.IsSpawned)
+                        {
+                            netobj.Spawn();
+                            WizardTimePlugin.mls.LogInfo("spawning");
+                        }
+                        else
+                        {
+                            WizardTimePlugin.mls.LogInfo(netobj.gameObject.name);
+                        }
+                    }
                 }
             }
         }
@@ -39,20 +49,23 @@ namespace WizardTime
         }
         public static void ActivateItem_performedPatch(Action<PlayerControllerB, InputAction.CallbackContext> orig, PlayerControllerB self, InputAction.CallbackContext context)
         {
-            SpellBook spellBookInstance = SpellBook.Instance;
+            //SpellBook spellBookInstance = SpellBook.Instance;
             if(self == StartOfRound.Instance.localPlayerController)
             {
-                if(spellBookInstance != null && spellBookInstance.selectedTome != null && spellBookInstance.selectedTome.selectedSpell != null)
-                {
-                    if(!(spellBookInstance.selectedTome.selectedSpell.ManaCost > spellBookInstance.mana))
-                    {
-                        spellBookInstance.selectedTome.CastSpellOnServerRpc();
-                    }
-                    else
-                    {
-                        WizardTimePlugin.mls.LogInfo("No mana!");
-                    }
-                }
+                SpellBook.testmore();
+                //WizardTimePlugin.mls.LogInfo(SpellBook.Instance == null);
+                //if (spellBookInstance != null && spellBookInstance.selectedTome != null /*&& spellBookInstance.selectedTome.selectedSpell != null*/)
+                //{
+                //    //spellBookInstance.fireKnowledge.CastSpellOnClient();
+                //    //if (!(spellBookInstance.selectedTome.selectedSpell.ManaCost > spellBookInstance.mana))
+                //    //{
+                //    //    //spellBookInstance.selectedTome.CastSpellOnClient();
+                //    //}
+                //    //else
+                //    //{
+                //    //    WizardTimePlugin.mls.LogInfo("No  mana!");
+                //    //}
+                //}
                 orig(self,context);
             }
         }

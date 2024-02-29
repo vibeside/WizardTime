@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace WizardTime.Scripts
 {
-    internal class SpellBook : MonoBehaviour
+    internal class SpellBook : NetworkBehaviour
     {
         public static SpellBook Instance = null!;
         public PlayerControllerB? localPlayer;
@@ -20,18 +21,22 @@ namespace WizardTime.Scripts
         public float manaRegenSpeed = 1f;
         public void Awake()
         {
-            if(Instance != null)
+            if (Instance != null)
             {
                 DestroyImmediate(Instance);
             }
             Instance = this;
-            fireKnowledge = GetComponent<Fire>();
-            selectedTome = fireKnowledge;
-            selectedTome.selectedSpell = selectedTome.minorMagicks;
+            //fireKnowledge = GetComponent<Fire>();
+            //selectedTome = fireKnowledge;
+            //selectedTome.selectedSpell = fireKnowledge.minorMagicks;
+            //WizardTimePlugin.mls.LogInfo(fireKnowledge == null);
+            //WizardTimePlugin.mls.LogInfo(selectedTome.minorMagicks == null);
+            //WizardTimePlugin.mls.LogInfo(selectedTome.selectedSpell == null);
+
         }
         public void Update()
         {
-            if(localPlayer == null) localPlayer = StartOfRound.Instance.localPlayerController;
+            if (localPlayer == null && StartOfRound.Instance != null) localPlayer = StartOfRound.Instance.localPlayerController;
             if (mana < 100)
             {
                 mana += Time.deltaTime * manaRegenSpeed;
@@ -41,5 +46,20 @@ namespace WizardTime.Scripts
                 mana = 100f;
             }
         }
+        public static void testmore()
+        {
+            Instance.TestServerRpc();
+        }
+        [ServerRpc(RequireOwnership = false)]
+        public void TestServerRpc()
+        {
+            TestClientRpc();
+        }
+        [ClientRpc]
+        public void TestClientRpc()
+        {
+            WizardTimePlugin.mls.LogInfo("A");
+        }
+        
     }
 }

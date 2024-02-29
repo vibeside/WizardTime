@@ -15,6 +15,7 @@ namespace WizardTime.Scripts
                 fireballPrefab = WizardTimePlugin.magicksAssets.LoadAsset<GameObject>("Assets/magicks/Fireball.prefab");
             }
             minorMagicks = new Spell("Fireball", FireballMagicks, 1f);
+            selectedSpell = minorMagicks;
         }
         public override void CastSpell()
         {
