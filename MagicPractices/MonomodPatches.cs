@@ -55,7 +55,6 @@ namespace WizardTime
                 {
                     if (!(spellBookInstance.selectedTome.selectedSpell.ManaCost > spellBookInstance.mana))
                     {
-                        spellBookInstance.selectedTome.CastSpellOnClient();
                     }
                     else
                     {

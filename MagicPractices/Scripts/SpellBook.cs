@@ -26,14 +26,16 @@ namespace WizardTime.Scripts
                 DestroyImmediate(Instance);
             }
             Instance = this;
-            fireKnowledge = GetComponent<Fire>();
-            selectedTome = fireKnowledge;
-            selectedTome.selectedSpell = fireKnowledge.minorMagicks;
 
         }
         public void Update()
         {
             if (localPlayer == null && StartOfRound.Instance != null) localPlayer = StartOfRound.Instance.localPlayerController;
+            if (localPlayer != null)
+            {
+                transform.position = localPlayer.gameplayCamera.transform.position;
+                transform.forward = localPlayer.gameplayCamera.transform.forward;
+            }
             if (mana < 100)
             {
                 mana += Time.deltaTime * manaRegenSpeed;
@@ -42,6 +44,11 @@ namespace WizardTime.Scripts
             {
                 mana = 100f;
             }
+        }
+        [ServerRpc]
+        public void CastSpellServerRpc()
+        {
+            WizardTimePlugin.mls.LogInfo("doesnt do anything");
         }
     }
 }

@@ -2,36 +2,33 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace WizardTime.Scripts
 {
     internal class Fire : Tome
     {
-        public GameObject? fireballPrefab;
+        
         public void Awake()
         {
-            if (WizardTimePlugin.magicksAssets != null)
-            {
-                fireballPrefab = WizardTimePlugin.magicksAssets.LoadAsset<GameObject>("Assets/magicks/Fireball.prefab");
-            }
-            minorMagicks = new Spell("Fireball", FireballMagicks, 1f);
+            minorMagicks = new Spell("Fireball", FireballMagicks, 1f, Magicks.Fire);
             selectedSpell = minorMagicks;
         }
-        public override void CastSpell()
-        {
-            base.CastSpell();
-        }
+        //public override void CastSpell()
+        //{
+        //    base.CastSpell();
+        //}
         public void FireballMagicks()
         {
-            if (fireballPrefab == null)
-            {
-                WizardTimePlugin.mls.LogError("Warning, Fireball Prefab didn't load");
-                return;
-            }
-            GameObject ballOfFire = Instantiate(fireballPrefab);
-            ballOfFire.transform.position = StartOfRound.Instance.localPlayerController.gameplayCamera.transform.position;
-            //ballOfFire.transform.rotation = Quaternion.Euler(StartOfRound.Instance.localPlayerController.gameplayCamera.transform.forward);
-            ballOfFire.transform.up = -StartOfRound.Instance.localPlayerController.gameplayCamera.transform.forward;
+            //if (fireballPrefab == null)
+            //{
+            //    WizardTimePlugin.mls.LogError("Warning, Fireball Prefab didn't load");
+            //    return;
+            //}
+            //GameObject ballOfFire = Instantiate(fireballPrefab);
+            //if (ballOfFire.TryGetComponent(out NetworkObject netObj)) netObj.Spawn();
+            //ballOfFire.transform.position = transform.position;
+            //ballOfFire.transform.up = -transform.forward;
 
         }
     }

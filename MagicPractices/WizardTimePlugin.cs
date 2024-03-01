@@ -17,7 +17,7 @@ namespace WizardTime
     public class WizardTimePlugin : BaseUnityPlugin
     {
         public const string modGUID = "grug.lethalcompany.WizardTime";
-        public const string modName = "MagicPractices";
+        public const string modName = "Magic Practices";
         public const string modVersion = "0.1.0.0";
         public static List<Hook> MMHooks = [];
         public static AssetBundle? magicksAssets;
@@ -65,7 +65,6 @@ namespace WizardTime
             focusOrb.hideFlags = HideFlags.HideAndDontSave;
             focusOrb.transform.SetParent(silly.transform);
             focusOrb.AddComponent<SpellBook>();
-            focusOrb.AddComponent<Fire>();
             focusOrb.AddComponent<NetworkObject>();
             var (hash, _, _, _) = QuadHash(0);
                 focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;

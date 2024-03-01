@@ -6,17 +6,22 @@ using UnityEngine;
 
 namespace WizardTime.Scripts
 {
-    internal class Spell
+    [CreateAssetMenu(menuName = $"Magic Practices/Spell")]
+    public class Spell : ScriptableObject
     {
         public string Name = "";
         public delegate void Effects();
+        public Magicks SpellType;
         public Effects SpellEffects;
         public float ManaCost;
-        public Spell(string name, Effects magic, float manacost) 
+        public GameObject? SpellPrefab;
+        public Spell(string name, Effects magic, float manacost, Magicks type, GameObject? prefab = null) 
         {
             Name = name;
             SpellEffects = magic;
             ManaCost = manacost;
+            SpellPrefab = prefab;
+            SpellType = type;
         }
     }
 }
