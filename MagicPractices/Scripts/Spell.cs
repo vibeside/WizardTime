@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.Netcode;
 using UnityEngine;
+using WizardTime.SpellComponents;
 
 namespace WizardTime.Scripts
 {
     [CreateAssetMenu(menuName = $"Magic Practices/Spell")]
-    public class Spell : ScriptableObject
+    internal class Spell : ScriptableObject
     {
         public string Name = "";
-        public delegate void Effects();
         public Magicks SpellType;
-        public Effects SpellEffects;
+        public SpellEffects? spellComponent;
         public float ManaCost;
         public GameObject? SpellPrefab;
-        public Spell(string name, Effects magic, float manacost, Magicks type, GameObject? prefab = null) 
+        public Spell(string name, SpellEffects magic, float manacost, Magicks type, GameObject? prefab = null) 
         {
             Name = name;
-            SpellEffects = magic;
+            spellComponent = magic;
             ManaCost = manacost;
             SpellPrefab = prefab;
             SpellType = type;

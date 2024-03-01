@@ -7,6 +7,9 @@ namespace WizardTime.SpellComponents
 {
     internal class SpellEffects : MonoBehaviour
     {
-        public virtual void bruh() { }
+        public virtual void MoveToLocation(Vector3 location)
+        {
+            transform.position = location;
+        }
     }
 }

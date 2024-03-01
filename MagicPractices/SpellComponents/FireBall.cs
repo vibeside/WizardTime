@@ -5,12 +5,16 @@ using UnityEngine;
 
 namespace WizardTime.SpellComponents
 {
-    internal class FireBall : MonoBehaviour
+    internal class FireBall : SpellEffects
     {
         public Transform? target;
         public float rotationSpeed = 1f;
         private Vector3 direction = Vector3.zero;
         private Quaternion lookTo;
+        public void Awake()
+        {
+            WizardTimePlugin.mls.LogInfo("It's wizard time motherfucker! I cast fireball!");
+        }
         public void Update()
         {
             if (target != null)

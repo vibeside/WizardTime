@@ -48,17 +48,25 @@ namespace WizardTime.Scripts
             }
         }
         [ServerRpc(RequireOwnership = false)]
-        public void CastSpellServerRpc()
+        public void CastSpellServerRpc(PlayerControllerB caster)
         {
-            CastSpellClientRpc();
+            CastSpellClientRpc(caster);
         }
         [ClientRpc]
-        public void CastSpellClientRpc()
+        public void CastSpellClientRpc(PlayerControllerB caster)
         {
-            CastSpell();
+            CastSpell(caster);
         }
-        public void CastSpell()
+        public void CastSpell(PlayerControllerB caster)
         {
+            if (selectedTome != null && selectedTome.selectedSpell != null && selectedTome.selectedSpell.SpellPrefab != null)
+            {
+                GameObject spellPrefab = Instantiate(selectedTome.selectedSpell.SpellPrefab, caster.transform.position, Quaternion.identity);
+                if(spellPrefab.TryGetComponent(out NetworkObject netobj))
+                {
+                    netobj.Spawn();
+                }
+            }
         }
     }
 }

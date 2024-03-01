@@ -14,6 +14,13 @@ namespace WizardTime
         {
             orig(self);
             NetworkManager.Singleton.AddNetworkPrefab(WizardTimePlugin.focusOrb);
+            foreach(Spell spell in AssetSummoner.spells)
+            {
+                if(spell.SpellPrefab != null && spell.SpellPrefab.TryGetComponent(out NetworkObject netObj))
+                {
+                    NetworkManager.Singleton.AddNetworkPrefab(spell.SpellPrefab);
+                }
+            }
         }
         public static void StartOfRoundAwake(Action<StartOfRound> orig, StartOfRound self)
         {
@@ -53,7 +60,7 @@ namespace WizardTime
             {
                 if (spellBookInstance != null)
                 {
-                    spellBookInstance.CastSpellServerRpc();
+                    spellBookInstance.CastSpellServerRpc(self);
                 }
                 orig(self,context);
             }
