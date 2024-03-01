@@ -26,7 +26,9 @@ namespace WizardTime.Scripts
                 DestroyImmediate(Instance);
             }
             Instance = this;
-
+            fireKnowledge = AssetSummoner.tomes[0];
+            selectedTome = fireKnowledge;
+            selectedTome.selectedSpell = selectedTome.minorMagicks;
         }
         public void Update()
         {
@@ -45,10 +47,18 @@ namespace WizardTime.Scripts
                 mana = 100f;
             }
         }
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void CastSpellServerRpc()
         {
-            WizardTimePlugin.mls.LogInfo("doesnt do anything");
+            CastSpellClientRpc();
+        }
+        [ClientRpc]
+        public void CastSpellClientRpc()
+        {
+            CastSpell();
+        }
+        public void CastSpell()
+        {
         }
     }
 }

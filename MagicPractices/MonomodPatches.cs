@@ -51,16 +51,9 @@ namespace WizardTime
             SpellBook spellBookInstance = SpellBook.Instance;
             if (self == StartOfRound.Instance.localPlayerController)
             {
-                if (spellBookInstance != null && spellBookInstance.selectedTome != null && spellBookInstance.selectedTome.selectedSpell != null)
+                if (spellBookInstance != null)
                 {
-                    if (!(spellBookInstance.selectedTome.selectedSpell.ManaCost > spellBookInstance.mana))
-                    {
-                        // cast here
-                    }
-                    else
-                    {
-                        WizardTimePlugin.mls.LogInfo("No  mana!");
-                    }
+                    spellBookInstance.CastSpellServerRpc();
                 }
                 orig(self,context);
             }

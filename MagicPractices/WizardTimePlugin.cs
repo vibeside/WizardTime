@@ -51,6 +51,7 @@ namespace WizardTime
             string sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             magicksAssets = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "magicksbundle"));
+
             mls = Logger;
             mls.LogInfo("Loaded!");
             //Holds the scripts used by the mod to do magic!
@@ -76,6 +77,8 @@ namespace WizardTime
                 typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.StartOfRoundAwake))));
             MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0),
             typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.ActivateItem_performedPatch))));
+
+            AssetSummoner.SummonAssets();
         }
     }
     
