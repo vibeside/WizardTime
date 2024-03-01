@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace WizardTime.Scripts
 {
+    [CreateAssetMenu(menuName = $"Magic Practices/Tome")]
     internal class Tome : ScriptableObject
     {
         public Spell? minorMagicks;
@@ -14,6 +15,7 @@ namespace WizardTime.Scripts
         public Spell? buffMagicks;
         public Spell? defensiveMagicks;
         public Spell? selectedSpell;
+        public Magicks MagicksType;
         public bool Unlocked = false;
     }  
 }

@@ -12,10 +12,10 @@ namespace WizardTime.Scripts
         public static SpellBook Instance = null!;
         public PlayerControllerB? localPlayer;
         public bool Unlocked = true;
-        public Fire? fireKnowledge;
-        public Blood? bloodKnowledge;
-        public Thunder? thunderKnowledge;
-        public Gravity? gravityKnowledge;
+        public Tome? fireKnowledge;
+        public Tome? gravityKnowledge;
+        public Tome? bloodKnowledge;
+        public Tome? thunderKnowledge;
         public Tome? selectedTome;
         public float mana = 100f;
         public float manaRegenSpeed = 1f;
