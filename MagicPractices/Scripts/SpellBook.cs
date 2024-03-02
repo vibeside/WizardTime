@@ -48,36 +48,21 @@ namespace WizardTime.Scripts
             }
         }
         [ServerRpc(RequireOwnership = false)]
-        public void CastSpellServerRpc(NetworkObjectReference caster)
+        public void CastSpellServerRpc(NetworkBehaviourReference caster)
         {
-            CastSpellClientRpc(caster);
-        }
-        [ClientRpc]
-        public void CastSpellClientRpc(NetworkObjectReference caster)
-        {
-            if (caster.TryGet(out NetworkObject netobj))
-            {
-                if(netobj.TryGetComponent(out PlayerControllerB wizard))
-                {
-                    CastSpell(wizard);
-                }
-                else
-                {
-                    WizardTimePlugin.mls.LogInfo($"Couldn't find player script on {netobj.gameObject}");
-                }
-            }
-            else
-            {
-                WizardTimePlugin.mls.LogInfo($"Couldn't find networkobject on {caster}");
-            }
+            if (!caster.TryGet(out PlayerControllerB wizard))
+                throw new ArgumentException(nameof(caster), "this mf ain't no wizard");
+
+            CastSpell(wizard);
         }
         public void CastSpell(PlayerControllerB caster)
         {
+            if (caster.performingEmote) return;
             if (selectedTome != null && selectedTome.selectedSpell != null && selectedTome.selectedSpell.SpellPrefab != null)
             {
                 if (IsServer || IsHost)
                 {
-                    GameObject spellPrefab = Instantiate(selectedTome.selectedSpell.SpellPrefab, caster.transform.position, Quaternion.identity);
+                    GameObject spellPrefab = Instantiate(selectedTome.selectedSpell.SpellPrefab, caster.gameplayCamera.transform.position + caster.gameplayCamera.transform.forward, caster.gameplayCamera.transform.rotation);
                     if (spellPrefab.TryGetComponent(out NetworkObject netobj))
                     {
                         netobj.Spawn();

@@ -60,7 +60,7 @@ namespace WizardTime
             {
                 if (spellBookInstance != null)
                 {
-                    spellBookInstance.CastSpellServerRpc(self.gameObject);
+                    spellBookInstance.CastSpellServerRpc(self);
                 }
                 orig(self,context);
             }
