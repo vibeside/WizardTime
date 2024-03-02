@@ -1,4 +1,5 @@
-﻿using GameNetcodeStuff;
+﻿using BepInEx;
+using GameNetcodeStuff;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,13 +47,14 @@ namespace WizardTime.Scripts
             {
                 mana = 100f;
             }
+            if(mana <= 0 ) mana = 0;
         }
         [ServerRpc(RequireOwnership = false)]
         public void CastSpellServerRpc(NetworkBehaviourReference caster)
         {
             if (!caster.TryGet(out PlayerControllerB wizard))
                 throw new ArgumentException(nameof(caster), "this mf ain't no wizard");
-
+            WizardTimePlugin.mls.LogInfo($"{wizard.playerUsername} cast spell {selectedTome!.selectedSpell}");
             CastSpell(wizard);
         }
         public void CastSpell(PlayerControllerB caster)
@@ -62,7 +64,7 @@ namespace WizardTime.Scripts
             {
                 if (IsServer || IsHost)
                 {
-                    GameObject spellPrefab = Instantiate(selectedTome.selectedSpell.SpellPrefab, caster.gameplayCamera.transform.position + caster.gameplayCamera.transform.forward, caster.gameplayCamera.transform.rotation);
+                    GameObject spellPrefab = Instantiate(selectedTome.selectedSpell.SpellPrefab, caster.gameplayCamera.transform.position, caster.gameplayCamera.transform.rotation);
                     if (spellPrefab.TryGetComponent(out NetworkObject netobj))
                     {
                         netobj.Spawn();

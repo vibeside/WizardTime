@@ -48,19 +48,23 @@ namespace WizardTime
         }
         #endregion
         #region Player stuff
-        public static void PlayerStartPatch(Action<PlayerControllerB> orig, PlayerControllerB self)
+        public static void PlayerStart(Action<PlayerControllerB> orig, PlayerControllerB self)
         {
             orig(self);
-            //self.gameObject.AddComponent<SpellBook>();
         }
         public static void ActivateItem_performedPatch(Action<PlayerControllerB, InputAction.CallbackContext> orig, PlayerControllerB self, InputAction.CallbackContext context)
         {
             SpellBook spellBookInstance = SpellBook.Instance;
             if (self == StartOfRound.Instance.localPlayerController)
             {
-                if (spellBookInstance != null)
+                if (spellBookInstance != null && spellBookInstance.selectedTome != null && spellBookInstance.selectedTome.selectedSpell != null)
                 {
-                    spellBookInstance.CastSpellServerRpc(self);
+                    if (spellBookInstance.mana - spellBookInstance.selectedTome.selectedSpell.ManaCost > 0)
+                    {
+                        spellBookInstance.mana -= spellBookInstance.selectedTome.selectedSpell.ManaCost;
+                        WizardTimePlugin.mls.LogInfo(spellBookInstance.mana);
+                        spellBookInstance.CastSpellServerRpc(self);
+                    }
                 }
                 orig(self,context);
             }

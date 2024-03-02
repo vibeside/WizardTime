@@ -1,8 +1,12 @@
-﻿using GameNetcodeStuff;
+﻿using Discord;
+using GameNetcodeStuff;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
+using UnityEngine.UIElements.Experimental;
 
 namespace WizardTime.SpellComponents
 {
@@ -10,16 +14,16 @@ namespace WizardTime.SpellComponents
     {
         public Transform? target;
         public float rotationSpeed = 1f;
-        public float speed = 1f;
+        public float speed = 3f;
         public Rigidbody? self;
         private Vector3 direction = Vector3.zero;
         private Quaternion lookTo;
         private bool hitSomething = false;
-        private LayerMask layermask = 11012424;
         public void Awake()
         {
             WizardTimePlugin.mls.LogInfo("It's wizard time motherfucker! I cast fireball!");
-            
+            Destroy(gameObject, 5);
+            //557520767
         }
         public void Update()
         {
@@ -31,16 +35,23 @@ namespace WizardTime.SpellComponents
             }
             if (self != null)
             {
-                if (!hitSomething) self.velocity = transform.forward;
-                if (hitSomething) self.velocity = Vector3.zero;
+                if (!hitSomething && !self.isKinematic) self.velocity = transform.forward * speed;
+                if (hitSomething && !self.isKinematic) self.velocity = Vector3.zero;
             }
         }
         public void OnTriggerEnter(Collider other)
         {
-            if ((layermask.value & (1 << other.gameObject.layer)) > 0)
+            if ((557520767 & (1 << other.gameObject.layer)) > 0)
             {
-                //11012424
-                WizardTimePlugin.mls.LogInfo($"hit something {other.gameObject.name}");
+                if (other.GetComponentInParent<PlayerControllerB>() != null && 
+                    other.GetComponentInParent<PlayerControllerB>() != StartOfRound.Instance.localPlayerController)
+                {
+                    WizardTimePlugin.mls.LogInfo($"{other.gameObject.name} was hit by fireball");
+                }
+                if (other.GetComponentInParent<PlayerControllerB>() == null)
+                {
+                    WizardTimePlugin.mls.LogInfo($"{other.gameObject.name} was hit by fireball");
+                }
             }
         }
     }

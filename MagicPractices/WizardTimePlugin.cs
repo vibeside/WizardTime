@@ -56,11 +56,10 @@ namespace WizardTime
             mls.LogInfo("Loaded!");
             //Holds the scripts used by the mod to do magic!
 
-
+            #region Gameobject creation
             GameObject silly = new("container");
             silly.hideFlags = HideFlags.HideAndDontSave;
             silly.SetActive(false);
-
 
             focusOrb = new GameObject("Magical Glowing Orb");
             focusOrb.hideFlags = HideFlags.HideAndDontSave;
@@ -69,15 +68,19 @@ namespace WizardTime
             focusOrb.AddComponent<NetworkObject>();
             var (hash, _, _, _) = QuadHash(0);
                 focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;
-
-
+            #endregion
+            #region Networking Patches
             MMHooks.Add(new(typeof(GameNetworkManager).GetMethod(nameof(GameNetworkManager.Start), (BindingFlags)~0),
                 typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.GameNetworkManagerPatch))));
             MMHooks.Add(new(typeof(StartOfRound).GetMethod(nameof(StartOfRound.Awake), (BindingFlags)~0),
                 typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.StartOfRoundAwake))));
+            #endregion
+            #region Player Patches
+            //MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.Start)),
+            //    typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.PlayerStart))));
             MMHooks.Add(new(typeof(PlayerControllerB).GetMethod(nameof(PlayerControllerB.ActivateItem_performed), (BindingFlags)~0),
-            typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.ActivateItem_performedPatch))));
-
+                typeof(MonomodPatches).GetMethod(nameof(MonomodPatches.ActivateItem_performedPatch))));
+            #endregion
             AssetSummoner.SummonAssets();
         }
     }
