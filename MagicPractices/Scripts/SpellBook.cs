@@ -54,7 +54,6 @@ namespace WizardTime.Scripts
         {
             if (!caster.TryGet(out PlayerControllerB wizard))
                 throw new ArgumentException(nameof(caster), "this mf ain't no wizard");
-            WizardTimePlugin.mls.LogInfo($"{wizard.playerUsername} cast spell {selectedTome!.selectedSpell}");
             CastSpell(wizard);
         }
         public void CastSpell(PlayerControllerB caster)

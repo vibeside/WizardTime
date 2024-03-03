@@ -3,6 +3,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using WizardTime.Scripts;
 
 namespace WizardTime
@@ -62,7 +63,6 @@ namespace WizardTime
                     if (spellBookInstance.mana - spellBookInstance.selectedTome.selectedSpell.ManaCost > 0)
                     {
                         spellBookInstance.mana -= spellBookInstance.selectedTome.selectedSpell.ManaCost;
-                        WizardTimePlugin.mls.LogInfo(spellBookInstance.mana);
                         spellBookInstance.CastSpellServerRpc(self);
                     }
                 }
