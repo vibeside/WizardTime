@@ -23,8 +23,9 @@ namespace WizardTime.SpellComponents
         private bool hitSomething = false;
         public VisualEffect FireTrail = null!;
         public VisualEffect FireBurst = null!;
-        public void Awake()
+        public override void Awake()
         {
+            base.Awake();
             gameObject.layer = 7;
             speed = 15f;
             Destroy(gameObject, 500);
@@ -53,7 +54,7 @@ namespace WizardTime.SpellComponents
             {
                 PlayerControllerB? player = other.GetComponentInParent<PlayerControllerB>();
                 if ((player != null && 
-                    player != StartOfRound.Instance.localPlayerController) ||
+                    player != caster) ||
                     player == null)
                 {
                     hitSomething = true;
@@ -62,6 +63,11 @@ namespace WizardTime.SpellComponents
                     if(enemy != null)
                     {
                         enemy.HitEnemyServerRpc(1,0,true);
+                        Destroy(gameObject);
+                    }
+                    if(player != null)
+                    {
+                        player.DamagePlayerFromOtherClientServerRpc(1,Vector3.zero,0);
                     }
                 }
             }

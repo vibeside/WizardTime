@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.Netcode;
 using UnityEngine;
+using WizardTime.SpellComponents;
 
 namespace WizardTime.Scripts
 {
@@ -64,6 +65,10 @@ namespace WizardTime.Scripts
                 if (IsServer || IsHost)
                 {
                     GameObject spellPrefab = Instantiate(selectedTome.selectedSpell.SpellPrefab, caster.gameplayCamera.transform.position, caster.gameplayCamera.transform.rotation);
+                    if (spellPrefab.TryGetComponent(out SpellEffects spelleffects))
+                    {
+                        spelleffects.caster = caster;
+                    }
                     if (spellPrefab.TryGetComponent(out NetworkObject netobj))
                     {
                         netobj.Spawn();

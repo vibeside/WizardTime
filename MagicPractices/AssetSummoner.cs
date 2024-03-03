@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using WizardTime.Scripts;
+using WizardTime.SpellComponents;
 
 namespace WizardTime
 {
