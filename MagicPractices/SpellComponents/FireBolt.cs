@@ -61,7 +61,7 @@ namespace WizardTime.SpellComponents
                     FireBurst.Play();
                     if(enemy != null)
                     {
-                        enemy.HitEnemyServerRpc();
+                        enemy.HitEnemyServerRpc(1,0,true);
                     }
                 }
             }
