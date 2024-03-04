@@ -51,6 +51,27 @@ namespace WizardTime.Scripts
             if(mana <= 0 ) mana = 0;
         }
         [ServerRpc(RequireOwnership = false)]
+        public void DamagePlayerFromCasterServerRpc(NetworkBehaviourReference damagedPlayer,NetworkBehaviourReference caster, int damage)
+        {
+            DamagePlayerFromCasterClientRpc(damagedPlayer, caster,damage);
+        }
+        [ClientRpc]
+        public void DamagePlayerFromCasterClientRpc(NetworkBehaviourReference damagedPlayer, NetworkBehaviourReference caster, int damage)
+        {
+            if (damagedPlayer.TryGet(out PlayerControllerB player) && caster.TryGet(out PlayerControllerB wizard))
+            {
+                DamagePlayerFromCaster(player,wizard,damage);
+            }
+            else
+            {
+                WizardTimePlugin.mls.LogInfo($"Damage player method given wrong parameters!{nameof(damagedPlayer)} and {nameof(caster)}");
+            }
+        }
+        public void DamagePlayerFromCaster(PlayerControllerB damagedPlayer, PlayerControllerB caster, int damage)
+        {
+            damagedPlayer.health -= damage;
+        }
+        [ServerRpc(RequireOwnership = false)]
         public void CastSpellServerRpc(NetworkBehaviourReference caster)
         {
             if (!caster.TryGet(out PlayerControllerB wizard))

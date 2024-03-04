@@ -9,6 +9,7 @@ using static UnityEngine.UIElements.UxmlAttributeDescription;
 using UnityEngine.UIElements.Experimental;
 using UnityEngine.VFX;
 using System.Collections;
+using WizardTime.Scripts;
 
 namespace WizardTime.SpellComponents
 {
@@ -67,7 +68,7 @@ namespace WizardTime.SpellComponents
                     }
                     if(player != null)
                     {
-                        player.DamagePlayerFromOtherClientServerRpc(1,Vector3.zero,0);
+                        SpellBook.Instance.DamagePlayerFromCasterClientRpc(player,caster,25);
                     }
                 }
             }
