@@ -10,6 +10,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WizardTime.Scripts;
+using WizardTime.Scripts.Animation;
 
 namespace WizardTime
 {
@@ -65,6 +66,7 @@ namespace WizardTime
             focusOrb.hideFlags = HideFlags.HideAndDontSave;
             focusOrb.transform.SetParent(silly.transform);
             focusOrb.AddComponent<SpellBook>();
+            focusOrb.AddComponent<AnimationController>();
             focusOrb.AddComponent<NetworkObject>();
             var (hash, _, _, _) = QuadHash(0);
                 focusOrb.GetComponent<NetworkObject>().GlobalObjectIdHash = hash;

@@ -88,18 +88,18 @@
 	<ItemGroup>
 		<BuildArtifacts Include="$(TargetPath)" />
 		<PluginOutput Include="C:\Users\Aaron\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Vanilla files\BepInEx\plugins" />
-		<LethalBepin Include="C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\BepInEx\plugins"/>
+		<LethalBepin Include="C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\BepInEx\plugins" />
 	</ItemGroup>
 	<PropertyGroup>
 		<Assets>magicksbundle</Assets>
 		<BundleFolder>C:\Users\Aaron\source\repos\bundles</BundleFolder>
 	</PropertyGroup>
 	<Target Name="NetcodePatch" AfterTargets="PostBuildEvent">
-		<Exec Command="netcode-patch &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')"/>
+		<Exec Command="netcode-patch &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')" />
 	</Target>
 	<Target Name="Copy and Test" AfterTargets="PostBuildEvent" DependsOnTargets="NetcodePatch">
 		<Copy DestinationFolder="@(PluginOutput)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="@(BuildArtifacts)" />
-		<Copy DestinationFolder="@(LethalBepin)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="@(BuildArtifacts)"/>
+		<Copy DestinationFolder="@(LethalBepin)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="@(BuildArtifacts)" />
 		<Copy DestinationFolder="@(PluginOutput)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(BundleFolder)\$(Assets)" />
 		<Copy DestinationFolder="@(LethalBepin)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(BundleFolder)\$(Assets)" />
 		<!-- other steps here -->
